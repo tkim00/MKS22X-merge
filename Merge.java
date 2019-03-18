@@ -11,8 +11,13 @@ public class Merge {
     if (lo >= hi) {
       return;
     }
-    mergesortH(int[] data, lo, ((lo+hi)/2)-1);
-    mergesortH(int[] data, (lo+hi)/2, hi);
+    int[] temp = new int[data.length/2];
+    mergesortH(temp, lo, ((lo+hi)/2)-1);
+    mergesortH(temp, (lo+hi)/2, hi);
 
+  }
+
+  public static void merge() {
+    
   }
 }

@@ -11,25 +11,36 @@ public class Merge {
     if (lo >= hi) {
       return;
     }
+    int med = (lo+hi)/2; //this is for the index of the arrays; this is more like the middle number
+    int half = (hi-lo)/2; //this is for the length of the arrays
     int[] temp;
-    int med = (lo+hi)/2;
-    for (int i = 0; i < med; i++) {
-      if (i == med-1) {
-        temp = new int[i];
-      }
-    }
     int[] temp2;
-    for (int i = med; i < data.length; i++) {
-      if (i == data.length-1) {
-        temp2 = new int[i];
+    int k = 0;//this is just to keep the index of temp independent from that of data
+    if (half%2==0) { //if length of array is odd;this is because lo and hi is inclusive
+      temp = new int[half];
+      temp2 = new int[half+1];
+      for (int i = lo; i < med; i++) {
+        temp[i] = data[i];
+      }
+      for (int i = med; i <= hi; i++) {
+        temp2[i] = data[i];
+      }
+    } else { //when it is even
+      temp = new int[half+1];
+      temp2 = new int[half+1];
+      for (int i = lo; i <= med; i++) {
+        temp[i] = data[i];
+      }
+      for (int i = med+1; i <= hi; i++) {
+        temp[i] = data[i];
       }
     }
-    for (int i = lo; i <= hi; i++) {
-      temp[i] = data[i];
-    }
-    mergesortH(temp, lo, ((lo+hi)/2)-1);
-    mergesortH(temp, (lo+hi)/2, hi);
+    mergesortH(temp, lo, med);
+    mergesortH(temp2, med+1, hi);
+    int[] temp3 = new int[hi-lo+1];
+    for (int i = 0; i < hi-lo+1; i+=2) { //the problem is the temporary index should not match the index of data.
 
+    }
   }
 
   public static void merge() {

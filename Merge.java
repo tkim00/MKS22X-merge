@@ -11,38 +11,46 @@ public class Merge {
 
   public static void mergesort(int[] data) {
     int[] temp = Arrays.copyOf(data, data.length);
-    mergesortH(data, temp, 0, data.length-1);
+    mergesortH(data, 0, data.length-1);
   }
 
-  public static void mergesortH(int[] data, int[] temp, int lo, int hi) {
+  public static void mergesortH(int[] data, int lo, int hi) {
     if (lo >= hi) {
       return;
     }
     int med = (lo+hi)/2;
-    mergesortH(temp, data, lo, med);
-    mergesortH(temp, data, med+1, hi);
-    merge(temp, data, lo, med, hi);
+    mergesortH(data, lo, med);
+    mergesortH(data, med+1, hi);
+    merge(data, lo, med, hi);
     //data = Arrays.copyOf(temp, temp.length);
   }
 
-  public static void merge(int[] data, int[] temp, int lo, int med, int hi) {
-    for (int i = 0; i < hi - med; i++) {
-      if (data[lo+i] > data[med+1+i]) {
+  public static void merge(int[] data, int lo, int med, int hi) {
+    int [] temp = new int [med - lo +1];
+    int [] temp2 = new int [hi-med];
+    for (int i = 0; i < temp.length; i++) {
+      temp [i] = data[lo+i];
+    }
+    for (int i = 0; i < temp2.length; i++) {
+      temp2 [i] = data[med+1+i];
+    }
+    for (int i = 0; i < temp2.length; i++) {
+      if (temp[i] > temp2[i]) {
         //int bigger = data[lo+i];
-        temp[lo+i*2] = data[med+1+i];
-        temp[lo+i*2+1] = data[lo+i];
+        data[lo+i*2] = temp2[i];
+        data[lo+i*2+1] = temp[i];
       } else {
-        temp[lo+i*2] = data[lo+i];
-        temp[lo+i*2+1] = data[med+1+i];
+        data[lo+i*2] = temp[i];
+        data[lo+i*2+1] = temp2[i];
       }
     }
-    if ((hi-lo)%2==0) {
-      if (data[med] < temp[hi-1]) {
-        int bigger = temp[hi-1];
-        temp[hi-1] = data[med];
-        temp[hi] = bigger;
+    if (temp.length>temp2.length) {
+      if (temp[temp.length-1] < data[hi-1]) {
+        int bigger = data[hi-1];
+        data[hi-1] = temp[temp.length-1];
+        data[hi] = bigger;
       } else {
-        temp[hi] = data[med];
+        data[hi] = temp[temp.length-1];
       }
     }
   }

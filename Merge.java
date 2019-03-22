@@ -11,47 +11,46 @@ public class Merge {
 
   public static void mergesort(int[] data) {
     int[] temp = Arrays.copyOf(data, data.length);
-    mergesortH(data, 0, data.length-1);
+    mergesortH(data, temp, 0, data.length-1);
   }
 
-  public static void mergesortH(int[] data, int lo, int hi) {
+  public static void mergesortH(int[] data, int[] temp, int lo, int hi) {
     if (lo >= hi) {
       return;
     }
     int med = (lo+hi)/2;
-    mergesortH(data, lo, med);
-    mergesortH(data, med+1, hi);
-    merge(data, lo, med, hi);
+    mergesortH(temp, data, lo, med);
+    mergesortH(temp, data, med+1, hi);
+    merge(temp, data, lo, med, hi);
     //data = Arrays.copyOf(temp, temp.length);
   }
 
-  public static void merge(int[] data, int lo, int med, int hi) {
-    int [] temp = new int [med - lo +1];
-    int [] temp2 = new int [hi-med];
-    for (int i = 0; i < temp.length; i++) {
-      temp [i] = data[lo+i];
-    }
-    for (int i = 0; i < temp2.length; i++) {
-      temp2 [i] = data[med+1+i];
-    }
-    for (int i = 0; i < temp2.length; i++) {
-      if (temp[i] > temp2[i]) {
+  public static void merge(int[] data, int[] temp, int lo, int med, int hi) {
+    int j = 0;
+    int k = 0;
+    int i = 0;
+    while (j < med - lo + 1 && k < hi - med) {
+      if (data[lo+j] > data[med+1+k]) {
         //int bigger = data[lo+i];
-        data[lo+i*2] = temp2[i];
-        data[lo+i*2+1] = temp[i];
+        temp[lo+i] = data[med+1+k];
+        //temp[lo+i*2+1] = data[lo+i];
+        k++;
       } else {
-        data[lo+i*2] = temp[i];
-        data[lo+i*2+1] = temp2[i];
+        temp[lo+i] = data[lo+j];
+        //temp[lo+i*2+1] = data[med+1+i];
+        j++;
       }
+      i++;
     }
-    if (temp.length>temp2.length) {
-      if (temp[temp.length-1] < data[hi-1]) {
-        int bigger = data[hi-1];
-        data[hi-1] = temp[temp.length-1];
-        data[hi] = bigger;
-      } else {
-        data[hi] = temp[temp.length-1];
-      }
+    while (j < med - lo + 1) {
+      temp[lo+i] = data [lo+j];
+      j++;
+      i++;
+    }
+    while (k < hi - med) {
+      temp[lo+i] = data [med+1+k];
+      k++;
+      i++;
     }
   }
 
